@@ -24,5 +24,15 @@ python main.py
 ```
 * You will be prompted for 5 unique stocks, if they are invalid the program will continue to prompt for them.
 
+### Output
+* 5 Charts will be displayed for the selected stocks. These charts will be named and saved in a 'charts' folder.
+
 ## Authors
 Justin Stewart
+
+## Acknowledgments
+
+Inspiration, code snippets, etc.
+* [yfinance](https://pypi.org/project/yfinance/)
+* [matplotlib](https://matplotlib.org/stable/tutorials/pyplot.html)
+* [ChatGPT](https://chatgpt.com/share/66e90d5b-5c24-8008-8d22-5a38b932fc3a)
