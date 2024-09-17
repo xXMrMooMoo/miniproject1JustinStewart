@@ -4,12 +4,12 @@
 
 import pprint
 from fileinput import close
-
+import numpy as np
 import yfinance as yf
 import matplotlib.pyplot as plt
 import sys
 
-
+from pandas.compat.numpy import np_version_gte1p24
 
 
 #(5/5 points) Initial comments with your name, class and project at the top of your .py file.
@@ -26,8 +26,34 @@ import sys
 
 def main():
     stockList = ["AMD", "INTC", "NVDA", "AMC", "GME"]
-    print(getClosingList("INTC"))
+    #   Converting Stock list to numpy array
+    stockList = np.array(stockList)
 
+    createGraphs(stockList)
+
+
+#   this function takes a np array, stockList, and converts the last 10 closing prices
+#   to graphs
+def createGraphs(stockList):
+    for stock in stockList:
+        #   np array of closing prices
+        stockClosing = np.array(getClosingList(stock))
+        #   sorted array for min/max values
+        stockSorted = np.sort(stockClosing)
+        days = list(range(1, len(stockClosing) + 1))
+        #   creating axis labels & padding (*1.01 for padding)
+        plt.axis([1, 10, (stockSorted[0] - 1), (stockSorted[-1] + 1)])
+
+        #   plotting and formatting graph.
+        plt.plot(days, stockClosing)
+        plt.xlabel('Days')
+        plt.title(f"Closing Price for {stock}")
+        plt.ylabel('Price (USD)')
+        plt.show()
+
+
+
+#   function to return the last 10 days of a stocks closing price.
 def getClosingList(stock):
 
     closingList = []
@@ -36,8 +62,6 @@ def getClosingList(stock):
 
     #   df of last 10 days
     tenDays = stock_history[-10:]
-    #print(ten_days)
-    #print(ten_days["Close"])
 
     for price in tenDays["Close"]:
         closingList.append(round(price, 2))
