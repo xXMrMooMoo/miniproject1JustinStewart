@@ -5,6 +5,7 @@
 import numpy as np
 import yfinance as yf
 import matplotlib.pyplot as plt
+import os
 
 
 
@@ -21,12 +22,17 @@ import matplotlib.pyplot as plt
 
 
 def main():
+    createChartFolder()
     stockList = ["AMD", "INTC", "NVDA", "AMC", "GME"]
     #   Converting Stock list to numpy array
     stockList = np.array(stockList)
 
     createGraphs(stockList)
 
+
+def createChartFolder():
+    if os.path.exists("charts") == False:
+        os.mkdir("charts")
 
 #   this function takes a np array, stockList, and converts the last 10 closing prices
 #   to graphs
