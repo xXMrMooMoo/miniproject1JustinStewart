@@ -22,12 +22,37 @@ import os
 
 
 def main():
+
     createChartFolder()
-    stockList = ["AMD", "INTC", "NVDA", "AMC", "GME"]
+    stockList = getStocks(5)
+    #stockList = ["AMD", "INTC", "NVDA", "AMC", "GME"]
     #   Converting Stock list to numpy array
     stockList = np.array(stockList)
 
     createGraphs(stockList)
+
+#   user input to get stocks.
+def getStocks(amount):
+    stockList = []
+    for i in range(1,amount+1):
+        stock = input(f"Please input stock {i}:").strip().upper()
+        #   Will re-prompt user until a valid stock is entered.
+        while True:
+            response = yf.Ticker(stock)
+            try:
+                #   checks to see if the dictionary is valid and has a city.
+                city_validation = response.info['city']
+                print(f"Valid stock: {stock}")
+                #   add to stock list
+                if stock in stockList:
+                    stock = input(f"Stock {stock} already added. Please re-enter stock {i}:")
+                else:
+                    stockList.append(stock)
+                    break
+            except:
+                stock = input(f"Stock {stock} is invalid. Please re-enter stock {i}:").strip().upper()
+    return stockList
+
 
 
 def createChartFolder():
@@ -43,7 +68,7 @@ def createGraphs(stockList):
         #   sorted array for min/max values
         stockSorted = np.sort(stockClosing)
         days = list(range(1, len(stockClosing) + 1))
-        #   creating axis labels & padding (*1.01 for padding)
+        #   creating axis labels & padding
         plt.axis([1, 10, (stockSorted[0] - 1), (stockSorted[-1] + 1)])
 
         #   plotting and formatting graph.
@@ -53,8 +78,6 @@ def createGraphs(stockList):
         plt.ylabel('Price (USD)')
         plt.savefig(f'charts/{stock}.png')
         plt.show()
-
-
 
 #   function to return the last 10 days of a stocks closing price.
 def getClosingList(stock):
