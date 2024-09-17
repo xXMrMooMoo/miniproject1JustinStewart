@@ -42,6 +42,12 @@ def getStocks(amount):
             try:
                 #   checks to see if the dictionary is valid and has a city.
                 city_validation = response.info['city']
+                #   checks to see the number of data entries, must be equal to or above 10 for the program to work correctly
+                #   FSD is an example of a stock that will break most programs.
+                history_validation = response.history(period="1mo")
+                if len(history_validation) < 10:
+                    raise ValueError
+
                 print(f"Valid stock: {stock}")
                 #   add to stock list
                 if stock in stockList:
