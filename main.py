@@ -2,14 +2,10 @@
 ### Justin Stewart
 ### Mini Project 1
 
-import pprint
-from fileinput import close
 import numpy as np
 import yfinance as yf
 import matplotlib.pyplot as plt
-import sys
 
-from pandas.compat.numpy import np_version_gte1p24
 
 
 #(5/5 points) Initial comments with your name, class and project at the top of your .py file.
@@ -49,6 +45,7 @@ def createGraphs(stockList):
         plt.xlabel('Days')
         plt.title(f"Closing Price for {stock}")
         plt.ylabel('Price (USD)')
+        plt.savefig(f'charts/{stock}.png')
         plt.show()
 
 
